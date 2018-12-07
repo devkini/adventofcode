@@ -1,5 +1,3 @@
-extern crate itertools;
-
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
@@ -75,10 +73,11 @@ pub fn part2(input: &Vec<String>) -> String {
                 1 => Some(same),
                 _ => None,
             }
-        }).expect("there is no candidate with distance of one!")
+        })
+        .expect("there is no candidate with distance of one!")
 }
 
-pub fn get_input() -> Result<Vec<String>, Box<std::error::Error>> {
+pub fn get_input() -> Result<Vec<String>, Box<dyn std::error::Error>> {
     // read data from input.txt
     let f = File::open("input.txt").expect("input.txt not found!");
     let input = BufReader::new(f).lines().collect::<Result<Vec<_>, _>>()?;

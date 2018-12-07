@@ -1,5 +1,3 @@
-extern crate rayon;
-
 use std::collections::HashSet;
 use std::error::Error;
 use std::io::{BufReader, Read};
@@ -47,11 +45,12 @@ pub fn part2(input: &String) -> usize {
             );
             // run the simulation
             part1(&buf)
-        }).min()
+        })
+        .min()
         .expect("there is no solution!")
 }
 
-pub fn get_input(f: impl Read) -> Result<String, Box<Error>> {
+pub fn get_input(f: impl Read) -> Result<String, Box<dyn Error>> {
     // read data from input.txt
     let mut buf = String::new();
     BufReader::new(f).read_to_string(&mut buf)?;

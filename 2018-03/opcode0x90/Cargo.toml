@@ -2,6 +2,7 @@
 name = "opcode0x90"
 version = "0.1.0"
 authors = ["opcode0x90 <opcode0x90.nop@gmail.com>"]
+edition = "2018"
 
 [lib]
 name = "aoc"

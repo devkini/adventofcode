@@ -22,7 +22,7 @@ pub fn part2(input: &Vec<i32>) -> i32 {
     acc
 }
 
-pub fn get_input() -> Result<Vec<i32>, Box<std::error::Error>> {
+pub fn get_input() -> Result<Vec<i32>, Box<dyn std::error::Error>> {
     // read data from input.txt
     let f = File::open("input.txt").expect("input.txt not found!");
     let input = BufReader::new(f).lines().flatten();

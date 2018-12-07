@@ -1,5 +1,3 @@
-extern crate regex;
-
 use std::collections::{BTreeMap, HashMap};
 use std::error::Error;
 use std::io::{BufRead, BufReader, Read};
@@ -107,7 +105,7 @@ pub fn part2(input: &Log) -> usize {
     id * m
 }
 
-pub fn get_input(f: impl Read) -> Result<Log, Box<Error>> {
+pub fn get_input(f: impl Read) -> Result<Log, Box<dyn Error>> {
     // read data from input.txt
     let input = BufReader::new(f).lines();
 
@@ -118,7 +116,7 @@ pub fn get_input(f: impl Read) -> Result<Log, Box<Error>> {
 
     for line in input {
         if let Some(parsed) = re.captures(line?.as_str()) {
-            let try_parse = |n| -> Result<usize, Box<Error>> {
+            let try_parse = |n| -> Result<usize, Box<dyn Error>> {
                 Ok(parsed
                     .get(n)
                     .ok_or_else(|| "malformed input")?

@@ -1,10 +1,8 @@
-extern crate aoc;
-
 use std::fs::File;
 
 use aoc::*;
 
-fn main() -> Result<(), Box<std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // read data from input.txt
     let f = File::open("input.txt").expect("input.txt not found!");
     let input = get_input(f)?;

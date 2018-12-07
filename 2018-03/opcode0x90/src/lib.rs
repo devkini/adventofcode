@@ -1,5 +1,3 @@
-extern crate regex;
-
 use std::collections::{HashMap, HashSet};
 use std::error::Error;
 use std::io::{BufRead, BufReader, Read};
@@ -92,7 +90,7 @@ pub fn part2(input: &Vec<Claim>) -> usize {
         .expect("unable to find any non-overlapping claims!")
 }
 
-pub fn get_input(f: impl Read) -> Result<Vec<Claim>, Box<Error>> {
+pub fn get_input(f: impl Read) -> Result<Vec<Claim>, Box<dyn Error>> {
     // read data from input.txt
     let input = BufReader::new(f).lines().collect::<Result<Vec<_>, _>>()?;
 
@@ -103,8 +101,9 @@ pub fn get_input(f: impl Read) -> Result<Vec<Claim>, Box<Error>> {
         .filter_map(|line| {
             // attempt to parse the input line
             re.captures(line.as_str())
-        }).map(|parsed| {
-            let try_parse = |n| -> Result<usize, Box<Error>> {
+        })
+        .map(|parsed| {
+            let try_parse = |n| -> Result<usize, Box<dyn Error>> {
                 Ok(parsed
                     .get(n)
                     .ok_or_else(|| "malformed input")?
@@ -120,7 +119,8 @@ pub fn get_input(f: impl Read) -> Result<Vec<Claim>, Box<Error>> {
                 width: try_parse(4)?,
                 height: try_parse(5)?,
             })
-        }).collect::<Result<Vec<_>, Box<Error>>>()?;
+        })
+        .collect::<Result<Vec<_>, Box<dyn Error>>>()?;
 
     Ok(claims)
 }
