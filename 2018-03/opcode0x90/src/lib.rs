@@ -2,6 +2,7 @@ use std::collections::{HashMap, HashSet};
 use std::error::Error;
 use std::io::{BufRead, BufReader, Read};
 
+use itertools::Itertools;
 use regex::Regex;
 
 #[derive(Debug)]
@@ -12,15 +13,6 @@ pub struct Claim {
     width: usize,
     height: usize,
 }
-
-#[derive(Debug)]
-pub struct Mark {
-    claims: HashSet<usize>,
-    count: usize,
-}
-
-type Fabric = HashMap<(usize, usize), Mark>;
-
 impl Claim {
     fn right(&self) -> usize {
         self.x + self.width
@@ -28,45 +20,58 @@ impl Claim {
     fn bottom(&self) -> usize {
         self.y + self.height
     }
+    fn iter_coord(&self) -> itertools::Product<std::ops::Range<usize>, std::ops::Range<usize>> {
+        let x = self.x..self.right();
+        let y = self.y..self.bottom();
+        x.cartesian_product(y)
+    }
+}
+
+#[derive(Debug, Default)]
+pub struct Marks {
+    claims: HashSet<usize>,
+    count: usize,
+}
+
+type Coord = (usize, usize);
+type Fabric = HashMap<Coord, Marks>;
+
+trait Mark {
+    fn mark(&mut self, claim: &Claim);
+}
+impl Mark for Fabric {
     /// mark the claim on fabric
-    fn mark(&self, fabric: &mut Fabric) -> () {
-        for x in self.x..self.right() {
-            for y in self.y..self.bottom() {
-                let coord = (x, y);
+    fn mark(&mut self, claim: &Claim) {
+        claim.iter_coord().for_each(|coord| {
+            // this is mine now!
+            let mark = self.entry(coord).or_insert_with(Marks::default);
 
-                // this is mine now!
-                let mark = fabric.entry(coord).or_insert(Mark {
-                    claims: HashSet::new(),
-                    count: 0,
-                });
-
-                // or is it?
-                mark.claims.insert(self.id);
-                mark.count += 1;
-            }
-        }
+            // or is it?
+            mark.claims.insert(claim.id);
+            mark.count += 1;
+        });
     }
 }
 
 /// I got lazy and just went with the naive bitmap solution instead
-pub fn part1(input: &Vec<Claim>) -> usize {
-    let mut fabric: Fabric = HashMap::new();
+pub fn part1(input: &[Claim]) -> usize {
+    let mut fabric: Fabric = Fabric::new();
 
     // process all the claims
     for claim in input {
-        claim.mark(&mut fabric);
+        fabric.mark(claim);
     }
 
     // count areas with more than 1 claims
     fabric.values().filter(|mark| mark.count > 1).count()
 }
 
-pub fn part2(input: &Vec<Claim>) -> usize {
+pub fn part2(input: &[Claim]) -> usize {
     let mut fabric: Fabric = HashMap::new();
 
     // process all the claims
     for claim in input {
-        claim.mark(&mut fabric);
+        fabric.mark(claim);
     }
 
     // locate areas that doesn't overlap and extract the claims
@@ -81,12 +86,12 @@ pub fn part2(input: &Vec<Claim>) -> usize {
     }
 
     // extract non-overlapping claims
-    let mut id: Vec<&usize> = claims.difference(&overlapped).collect();
+    let id = claims.difference(&overlapped).collect::<Vec<_>>();
 
     // HACK: there should be only one non-overlapping claims
     assert_eq!(1, id.len());
 
-    *id.pop()
+    **id.first()
         .expect("unable to find any non-overlapping claims!")
 }
 
@@ -131,23 +136,23 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        let data = r#"
+        const DATA: &str = r#"
 #1 @ 1,3: 4x4
 #2 @ 3,1: 4x4
 #3 @ 5,5: 2x2
         "#;
-        let input = get_input(data.as_bytes()).unwrap();
+        let input = get_input(DATA.as_bytes()).unwrap();
         assert_eq!(4, part1(&input));
     }
 
     #[test]
     fn test_part2() {
-        let data = r#"
+        const DATA: &str = r#"
 #1 @ 1,3: 4x4
 #2 @ 3,1: 4x4
 #3 @ 5,5: 2x2
         "#;
-        let input = get_input(data.as_bytes()).unwrap();
+        let input = get_input(DATA.as_bytes()).unwrap();
         assert_eq!(3, part2(&input));
     }
 }

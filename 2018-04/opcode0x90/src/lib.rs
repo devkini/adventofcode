@@ -54,7 +54,7 @@ fn get_sleep_session(input: &Log) -> SleepSession {
                 assert!(sleep_start < sleep_end);
 
                 // mark the sleep duration
-                let sleep = session.entry(id).or_insert(SleepMap::new());
+                let sleep = session.entry(id).or_insert_with(SleepMap::new);
 
                 for m in sleep_start..sleep_end {
                     let count = sleep.entry(m).or_insert(0);

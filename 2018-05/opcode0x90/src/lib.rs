@@ -5,7 +5,7 @@ use std::iter::FromIterator;
 
 use rayon::prelude::*;
 
-pub fn part1(input: &String) -> usize {
+pub fn part1(input: &str) -> usize {
     // simulate polymer reaction
     let result = input
         .chars()
@@ -31,7 +31,7 @@ pub fn part1(input: &String) -> usize {
     result.len()
 }
 
-pub fn part2(input: &String) -> usize {
+pub fn part2(input: &str) -> usize {
     // find out all available units
     let units: HashSet<char> = HashSet::from_iter(input.chars());
 
@@ -66,11 +66,11 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(10, part1(&String::from("dabAcCaCBAcCcaDA")));
+        assert_eq!(10, part1("dabAcCaCBAcCcaDA"));
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(4, part2(&String::from("dabAcCaCBAcCcaDA")));
+        assert_eq!(4, part2("dabAcCaCBAcCcaDA"));
     }
 }

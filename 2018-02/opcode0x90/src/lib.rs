@@ -1,10 +1,9 @@
 use std::collections::HashMap;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
+use std::io::{BufRead, BufReader, Read};
 
 use itertools::Itertools;
 
-pub fn part1(input: &Vec<String>) -> u32 {
+pub fn part1(input: &[String]) -> u32 {
     fn frequency_map(s: &str) -> HashMap<char, u32> {
         // compute frequency count for each characters in given string
         let mut dict = HashMap::new();
@@ -47,7 +46,7 @@ pub fn part1(input: &Vec<String>) -> u32 {
     two * three
 }
 
-pub fn part2(input: &Vec<String>) -> String {
+pub fn part2(input: &[String]) -> String {
     input
         .into_iter()
         .tuple_combinations()
@@ -77,9 +76,8 @@ pub fn part2(input: &Vec<String>) -> String {
         .expect("there is no candidate with distance of one!")
 }
 
-pub fn get_input() -> Result<Vec<String>, Box<dyn std::error::Error>> {
+pub fn get_input(f: impl Read) -> Result<Vec<String>, Box<dyn std::error::Error>> {
     // read data from input.txt
-    let f = File::open("input.txt").expect("input.txt not found!");
     let input = BufReader::new(f).lines().collect::<Result<Vec<_>, _>>()?;
 
     Ok(input)
@@ -91,27 +89,31 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(
-            12,
-            part1(
-                &vec!["abcdef", "bababc", "abbcde", "abcccd", "aabcdd", "abcdee", "ababab"]
-                    .into_iter()
-                    .map(|s| String::from(s))
-                    .collect()
-            )
-        )
+        const DATA: &str = r#"
+abcdef
+bababc
+abbcde
+abcccd
+aabcdd
+abcdee
+ababab
+        "#;
+        let input = get_input(DATA.as_bytes()).unwrap();
+        assert_eq!(12, part1(&input))
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(
-            "fgij",
-            part2(
-                &vec!["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]
-                    .into_iter()
-                    .map(|s| String::from(s))
-                    .collect()
-            )
-        )
+        const DATA: &str = r#"
+abcde
+fghij
+klmno
+pqrst
+fguij
+axcye
+wvxyz
+        "#;
+        let input = get_input(DATA.as_bytes()).unwrap();
+        assert_eq!("fgij", part2(&input))
     }
 }

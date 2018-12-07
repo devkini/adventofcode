@@ -7,10 +7,12 @@ edition = "2018"
 [lib]
 name = "aoc"
 path = "src/lib.rs"
+bench = false
 
 [[bin]]
 name = "aoc"
 path = "src/main.rs"
+bench = false
 
 [[bench]]
 name = "bench"
