@@ -1,0 +1,26 @@
+[package]
+name = "opcode0x90"
+version = "0.1.0"
+authors = ["opcode0x90 <opcode0x90.nop@gmail.com>"]
+edition = "2018"
+
+[lib]
+name = "aoc"
+path = "src/lib.rs"
+bench = false
+
+[[bin]]
+name = "aoc"
+path = "src/main.rs"
+bench = false
+
+[[bench]]
+name = "bench"
+harness = false
+
+[dependencies]
+regex = "1"
+itertools = "0.7.11"
+
+[dev-dependencies]
+criterion = "0.2"
