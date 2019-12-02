@@ -1,0 +1,9 @@
+[package]
+name = "opcode0x90"
+version = "0.1.0"
+authors = ["opcode0x90 <opcode0x90.nop@gmail.com>"]
+edition = "2018"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
