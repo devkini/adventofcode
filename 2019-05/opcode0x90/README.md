@@ -13,22 +13,22 @@ Result
 ------
 
 ```sh
-part1: 460
-part2: 290
+part1: 12234644
+part2: 3508186
 ```
 
 Benchmark
 ---------
 
 ```
-$ cargo bench -- --save-baseline 1 --sample-size 20
-part1                   time:   [45.484 ms 45.709 ms 45.925 ms]
-Found 3 outliers among 20 measurements (15.00%)
-  2 (10.00%) high mild
-  1 (5.00%) high severe
+$ cargo bench -- --save-baseline 1
+part1                   time:   [412.87 ns 414.41 ns 416.00 ns]
+Found 13 outliers among 100 measurements (13.00%)
+  2 (2.00%) high mild
+  11 (11.00%) high severe
 
-Benchmarking part2: Warming up for 3.0000 s
-part2                   time:   [75.470 ms 75.959 ms 76.516 ms]
-Found 1 outliers among 20 measurements (5.00%)
-  1 (5.00%) high severe
+part2                   time:   [634.03 ns 637.55 ns 641.51 ns]
+Found 10 outliers among 100 measurements (10.00%)
+  7 (7.00%) high mild
+  3 (3.00%) high severe
 ```

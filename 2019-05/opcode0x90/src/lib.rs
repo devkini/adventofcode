@@ -47,8 +47,8 @@ impl Program {
         // decode the opcode at instruction pointer
         let raw = self.buffer[self.ip] as usize;
         let opcode = raw % 100;
-        println!("| scope: {:?}", &self.buffer[self.ip..]);
-        println!("| opcode: {:?}", opcode);
+        // println!("| scope: {:?}", &self.buffer[self.ip..]);
+        // println!("| opcode: {:?}", opcode);
 
         let decoded = match opcode {
             99 => Instruction::Halt,
@@ -171,13 +171,13 @@ impl Program {
             }
             Instruction::LessThan(a, b, dst) => {
                 let val = (a < b) as isize;
-                println!("val: {:?}", val);
+                // println!("val: {:?}", val);
                 self.buffer[dst] = val;
                 4
             }
             Instruction::Equals(a, b, dst) => {
                 let val = (a == b) as isize;
-                println!("val: {:?}", val);
+                // println!("val: {:?}", val);
                 self.buffer[dst] = val;
                 4
             }
@@ -193,12 +193,12 @@ impl Program {
             // decode the instruction
             if let Some(instruction) = self.decode() {
                 // execute the instruction and return instruction size
-                println!("{:?}", instruction);
+                // println!("{:?}", instruction);
                 let size = self.execute(instruction.clone(), input);
 
                 match instruction {
                     Instruction::Output(_) => {
-                        println!("-> {:?}", self.output);
+                        // println!("-> {:?}", self.output);
                         // assert!(self.output == 0);
                     }
                     Instruction::Halt => return self.output, // execution halted, return most recent output
