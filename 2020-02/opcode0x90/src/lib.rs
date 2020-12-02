@@ -52,7 +52,7 @@ pub fn get_input(f: impl Read) -> Result<Vec<Password>, Box<dyn Error>> {
 
     // read the input line by line
     for line in reader.lines() {
-        // attempt to parse each line into unsigned integer
+        // attempt to parse each line
         let value = line?.parse::<Password>()?;
         buffer.push(value);
     }
