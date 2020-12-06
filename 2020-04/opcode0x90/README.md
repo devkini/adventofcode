@@ -1,7 +1,7 @@
-2020-02
+2020-04
 =======
 
-Solution for [Advent of Code 2020](https://adventofcode.com/2020) day 2.
+Solution for [Advent of Code 2020](https://adventofcode.com/2020) day 4.
 
 Compiling and Running
 ---------------------
