@@ -15,9 +15,7 @@ def solve(foods):
     ingredients_ = list(set(item for pair in foods for item in pair[0]))
     allergens_ = list(set(item for pair in foods for item in pair[1]))
 
-    # INGREDIENTS, ingredients = EnumSort('Ingredient', ingredients_)
     ingredients = dict((v, i) for i, v in enumerate(ingredients_))
-    # ALLERGENS, allergens = EnumSort('Allergen', allergens_)
     allergens = dict((v, i) for i, v in enumerate(allergens_))
 
     # we want to find out which ingredient is an allergen
@@ -32,9 +30,9 @@ def solve(foods):
     # there can only be one possible ingredient assigned to an allergen
     s.add(z3.Distinct(assignments))
 
-    # program the possible pair of assignments
     for i, a in foods:
 
+        # program the all possible pairs of assignment for this food
         for a_ in a:
             food = []
             for i_ in i:
@@ -46,7 +44,7 @@ def solve(foods):
                 food.append(A == I)
             s.add(z3.Or(food))
 
-        # this food doesn't contain any other types of allergen
+        # ensure that this food doesn't contain any other types of allergen
         food = []
 
         not_a = set(allergens.keys()) - set(a)
@@ -69,10 +67,11 @@ def solve(foods):
     print(f"{r=}")
 
     if r == z3.sat:
+        # constrain satisfied, now we extract the solution from the model
         m = s.model()
         print(f"{m=}")
 
-        # now we need to reverse the encoding
+        # reverse the our integer encoding into string
         allergen = dict(enumerate(allergens_))
         ingredient = dict(enumerate(ingredients_))
 
