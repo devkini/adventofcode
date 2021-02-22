@@ -2,12 +2,12 @@ use std::collections::HashSet;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 
-pub fn part1(input: &Vec<i32>) -> i32 {
+pub fn part1(input: &[i32]) -> i32 {
     // compute the sum
     input.iter().sum()
 }
 
-pub fn part2(input: &Vec<i32>) -> i32 {
+pub fn part2(input: &[i32]) -> i32 {
     let mut delta = HashSet::new();
     let mut acc = 0;
 
@@ -22,14 +22,13 @@ pub fn part2(input: &Vec<i32>) -> i32 {
     acc
 }
 
-pub fn get_input() -> Result<Vec<i32>, Box<std::error::Error>> {
+pub fn get_input() -> Result<Vec<i32>, Box<dyn std::error::Error>> {
     // read data from input.txt
     let f = File::open("input.txt").expect("input.txt not found!");
     let input = BufReader::new(f).lines().flatten();
 
     // parse the input into integers
     let parsed = input
-        .into_iter()
         .map(|line| line.parse::<i32>())
         .collect::<Result<Vec<_>, _>>()?;
 
@@ -42,18 +41,18 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(3, part1(&vec![1, -2, 3, 1]));
-        assert_eq!(3, part1(&vec![1, 1, 1]));
-        assert_eq!(0, part1(&vec![1, 1, -2]));
-        assert_eq!(-6, part1(&vec![-1, -2, -3]));
+        assert_eq!(3, part1(&[1, -2, 3, 1]));
+        assert_eq!(3, part1(&[1, 1, 1]));
+        assert_eq!(0, part1(&[1, 1, -2]));
+        assert_eq!(-6, part1(&[-1, -2, -3]));
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(2, part2(&vec![1, -2, 3, 1]));
-        assert_eq!(0, part2(&vec![1, -1]));
-        assert_eq!(10, part2(&vec![3, 3, 4, -2, -4]));
-        assert_eq!(5, part2(&vec![-6, 3, 8, 5, -6]));
-        assert_eq!(14, part2(&vec![7, 7, -2, -7, -4]));
+        assert_eq!(2, part2(&[1, -2, 3, 1]));
+        assert_eq!(0, part2(&[1, -1]));
+        assert_eq!(10, part2(&[3, 3, 4, -2, -4]));
+        assert_eq!(5, part2(&[-6, 3, 8, 5, -6]));
+        assert_eq!(14, part2(&[7, 7, -2, -7, -4]));
     }
 }

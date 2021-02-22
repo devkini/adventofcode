@@ -1,5 +1,3 @@
-extern crate rayon;
-
 use std::collections::HashSet;
 use std::error::Error;
 use std::io::{BufReader, Read};
@@ -7,7 +5,7 @@ use std::iter::FromIterator;
 
 use rayon::prelude::*;
 
-pub fn part1(input: &String) -> usize {
+pub fn part1(input: &str) -> usize {
     // simulate polymer reaction
     let result = input
         .chars()
@@ -33,7 +31,7 @@ pub fn part1(input: &String) -> usize {
     result.len()
 }
 
-pub fn part2(input: &String) -> usize {
+pub fn part2(input: &str) -> usize {
     // find out all available units
     let units: HashSet<char> = HashSet::from_iter(input.chars());
 
@@ -47,11 +45,12 @@ pub fn part2(input: &String) -> usize {
             );
             // run the simulation
             part1(&buf)
-        }).min()
+        })
+        .min()
         .expect("there is no solution!")
 }
 
-pub fn get_input(f: impl Read) -> Result<String, Box<Error>> {
+pub fn get_input(f: impl Read) -> Result<String, Box<dyn Error>> {
     // read data from input.txt
     let mut buf = String::new();
     BufReader::new(f).read_to_string(&mut buf)?;
@@ -67,11 +66,11 @@ mod tests {
 
     #[test]
     fn test_part1() {
-        assert_eq!(10, part1(&String::from("dabAcCaCBAcCcaDA")));
+        assert_eq!(10, part1("dabAcCaCBAcCcaDA"));
     }
 
     #[test]
     fn test_part2() {
-        assert_eq!(4, part2(&String::from("dabAcCaCBAcCcaDA")));
+        assert_eq!(4, part2("dabAcCaCBAcCcaDA"));
     }
 }

@@ -1,11 +1,7 @@
-#[macro_use]
-extern crate criterion;
-extern crate aoc;
-
 use std::fs::File;
 
 use aoc::*;
-use criterion::Criterion;
+use criterion::{criterion_group, criterion_main, Criterion};
 
 fn bench_part1(c: &mut Criterion) {
     c.bench_function("part1", |b| {

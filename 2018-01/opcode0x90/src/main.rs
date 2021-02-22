@@ -1,8 +1,6 @@
-extern crate aoc;
-
 use aoc::*;
 
-fn main() -> Result<(), Box<std::error::Error>> {
+fn main() -> Result<(), Box<dyn std::error::Error>> {
     // read data from input.txt
     let input = get_input()?;
 
